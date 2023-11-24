@@ -19,8 +19,9 @@ try:
     # Upgrade to a secure connection using STARTTLS
     print(send_command(client_socket, 'STARTTLS\r\n'))
 
-    # Wrap the socket with SSL
-    ssl_client_socket = ssl.wrap_socket(client_socket, ssl_version=ssl.PROTOCOL_SSLv23)
+     # Wrap the socket with SSL
+    ssl_context = ssl.create_default_context()
+    ssl_client_socket = ssl_context.wrap_socket(client_socket, server_hostname=mail_server)
 
     # Authentication
     email_A = b64encode(user_email.encode()).decode()
