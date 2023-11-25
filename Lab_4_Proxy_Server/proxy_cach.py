@@ -32,9 +32,10 @@ while 1:
         # ProxyServer finds a cache hit and generates a response message
         tcpCliSock.send("HTTP/1.0 200 OK\r\n".encode()) 
         tcpCliSock.send("Content-Type:text/html\r\n".encode())
-        
-        for i in range(len(outputdata)): # Fill in start.
-            tcpCliSock.send(outputdata[i].encode()) # Fill in end.
+
+        resp = ''
+        resp += "\r\n".join(outputdata)
+        tcpCliSock.sendall(resp.encode())
 
         print('Read from cache')
         f.close()
@@ -50,7 +51,7 @@ while 1:
                 print('inicio ilegal')
                 # Connect to the socket to port 80
                 c.connect((hostn, 80)) # Fill in start. # Fill in end.
-                print('aqui')
+                print('conecion del host')
 
                 # Create a temporary file on this socket and ask port 80 for the file requested by the client               
                 fileobj = c.makefile("wb", 0)
@@ -60,18 +61,20 @@ while 1:
                 # Create a new file in the cache for the requested file. 
                 # Also send the response in the buffer to client socket and the corresponding file in the cache
                 tmpFile = open("./cache/" + filename,"wb") 
-
+                print('antes del while')
                 while True:
-                    resp = c.recv(4096)
+                    resp = c.recv(1024)
+                    print(resp)
                     if not resp:
                         break
                     tmpFile.write(resp)
                     tcpCliSock.send(resp)
                 tmpFile.close()
 
-
-            except:
+                print('finist')
+            except Exception as e:
                 print("Illegal request")    
+                print(e)
         else:
             # HTTP response message for file not found
             
