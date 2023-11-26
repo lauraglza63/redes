@@ -18,17 +18,25 @@ while 1:
     print("--------------------------------------------")
     
     # Extract the filename from the given message
-    print(message.split()[1])
+    print(message.split())
     filename = message.split()[1].partition("/")[2]
-    print(filename)
+    print(f'FILENAME: {filename}')
     fileExist = "false"
-    filetouse = "/cache/" + filename
+
+    filetouse = "/cache/" + filename.replace('/', '')
     print(filetouse)
     try: 
+
         # Check wether the file exist in the cache
+        print(filetouse[1:])
+        print("HERE")
+
         f = open(filetouse[1:], "r") 
+
+        print(f)
         outputdata = f.readlines() 
         fileExist = "true"
+
         # ProxyServer finds a cache hit and generates a response message
         tcpCliSock.send("HTTP/1.0 200 OK\r\n".encode()) 
         tcpCliSock.send("Content-Type:text/html\r\n".encode())
