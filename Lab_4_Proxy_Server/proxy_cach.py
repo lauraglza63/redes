@@ -13,15 +13,22 @@ while 1:
     print('Ready to serve...')
     tcpCliSock, addr = tcpSerSock.accept()
     print('Received a connection from:', addr)
-    message = tcpCliSock.recv(4096).decode() # Fill in start. # Fill in end.
+    message = tcpCliSock.recv(1024).decode() # Fill in start. # Fill in end.
     print(message)
     print("--------------------------------------------")
     
     # Extract the filename from the given message
     print(message.split())
-    if len(message) > 0:
-        filename = message.split()[1].partition("/")[2]
-        print(f'FILENAME: {filename}')
+    if len(message.split()) <= 0:
+        print('No message')
+        continue
+    	
+    if message.split()[0] != 'GET':
+        print('No valid petition')
+        continue
+    
+    filename = message.split()[1].partition("/")[2]
+    print(f'FILENAME: {filename}')
     fileExist = "false"
 
     filetouse = "/cache/" + filename.replace('/', '')
@@ -46,21 +53,22 @@ while 1:
         resp += "\r\n".join(outputdata)
         tcpCliSock.sendall(resp.encode())
 
-        print('Read from cache')
+        print('Read from cache )))))))))))))))))))')
         f.close()
 
     # Error handling for file not found in cache
     except IOError:
-        if fileExist == "false": 
+        if fileExist == "false":
             # Create a socket on the proxyserver
+            filename = filename[1:-1]
             c = socket(AF_INET, SOCK_STREAM) # Fill in start. # Fill in end.
-            hostn = filename.replace("www.","",1) 
+            hostn = filename.replace("www.","",1)
             print(hostn) 
             try:
                 print('inicio ilegal')
                 # Connect to the socket to port 80
                 c.connect((hostn, 80)) # Fill in start. # Fill in end.
-                print('conecion del host')
+                print('<<<<<<<<<<<<<<<<<<<<<<<')
 
                 # Create a temporary file on this socket and ask port 80 for the file requested by the client               
                 fileobj = c.makefile("wb", 0)
@@ -69,12 +77,14 @@ while 1:
 
                 # Create a new file in the cache for the requested file. 
                 # Also send the response in the buffer to client socket and the corresponding file in the cache
+                print(filename)
                 tmpFile = open("./cache/" + filename,"wb") 
                 print('antes del while')
                 while True:
                     resp = c.recv(1024)
                     print(resp)
                     if not resp:
+                        tcpCliSock.close() 
                         break
                     tmpFile.write(resp)
                     tcpCliSock.send(resp)

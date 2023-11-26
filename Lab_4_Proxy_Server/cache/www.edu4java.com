@@ -1,13 +1,13 @@
 HTTP/1.0 200 OK
-X-Cloud-Trace-Context: 38330b68794c9221377b825ecc30389a
+X-Cloud-Trace-Context: 833f89184335b85605cdb76127350297
 Server: Google Frontend
-Date: Sat, 25 Nov 2023 20:41:12 GMT
-Expires: Sat, 25 Nov 2023 20:51:12 GMT
+Content-Length: 7847
+Date: Sun, 26 Nov 2023 14:36:39 GMT
+Expires: Sun, 26 Nov 2023 14:46:39 GMT
 Cache-Control: public, max-age=600
+ETag: "RYgJ8w"
 Content-Type: text/html
 Age: 0
-Accept-Ranges: none
-Vary: Accept-Encoding
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
