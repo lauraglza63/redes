@@ -19,8 +19,9 @@ while 1:
     
     # Extract the filename from the given message
     print(message.split())
-    filename = message.split()[1].partition("/")[2]
-    print(f'FILENAME: {filename}')
+    if len(message) > 0:
+        filename = message.split()[1].partition("/")[2]
+        print(f'FILENAME: {filename}')
     fileExist = "false"
 
     filetouse = "/cache/" + filename.replace('/', '')
